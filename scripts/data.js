@@ -1,6 +1,6 @@
 
 
-export let listaCompra = [];
+
 
 export class listElement {
     constructor (id, description){
@@ -8,3 +8,5 @@ export class listElement {
         this.description = description;
     }
 }
+
+export let isTheListEmpty=0;
