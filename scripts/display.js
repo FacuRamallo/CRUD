@@ -1,8 +1,7 @@
 
-export function li_Template(description,id) {
-    let sectionToRenderIn = document.getElementById("listdisplay");
-    sectionToRenderIn.innerHTML += `<li>${description}
-                                        <button class="deleteButton" id="${id}">Delete</button>
+export function li_Template(description,liId,sectionToRenderIn) {
+    sectionToRenderIn.innerHTML += `<li id="${liId}">${description}
+                                        <button class="deleteButton" id="${liId}" >Delete</button>
                                     </li>`
 }
 
@@ -10,11 +9,14 @@ export function printInConsole(whatToPrint) {
     console.log(whatToPrint);
     return 
 }
+export function deleteRenderById(id) {
+    document.getElementById(`${id}`).innerHTML=null;
+}
 
-
-export function renderList(listToPrint) {
+export function renderListById(listToPrint,idToPrintIn) {
+    let sectionToRenderIn = document.getElementById(`${idToPrintIn}`);
     listToPrint.forEach(element => {
-        li_Template(element.description,element.id)
+        li_Template(element.description,element.id,sectionToRenderIn)
     });
     return 
 }
@@ -35,3 +37,4 @@ export function resetListRender(){
     let sectionToRenderIn = document.getElementById("listdisplay");
     sectionToRenderIn.innerHTML = "";
 }
+

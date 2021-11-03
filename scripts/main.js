@@ -1,6 +1,7 @@
-import { createNewListElement,randomNumber,addElementToBuyList,getUserValue, resetApp, deleteListElement } from "./logics.js";
-import {printInConsole, renderList, resetInputValue} from "./display.js"
-import {  } from "./data.js";
+import { addButtonFunction, createBuyListElements,pushElementIntoList,deleteButtonFunction} from "./logics.js";
+import {printInConsole, renderListById, resetInputValue} from "./display.js"
+import {buyList,  } from "./data.js";
+import { ListElement } from "./ListElement.js";
 
 //to check if storage is supported
 if (typeof(Storage) !== "undefined") {
@@ -10,18 +11,6 @@ if (typeof(Storage) !== "undefined") {
 }
 
 
-
-
+//////////////////////MAIN/////////////////////////
 let userInput = document.getElementById("addButton");
-userInput.addEventListener("click",addElementToBuyList);
-
-let reset = document.getElementById("resetButton");
-reset.addEventListener("click",resetApp);
-
-let  deleteButtonList = document.getElementsByClassName("deleteButton");
-console.log(deleteButtonList);
-
-
-
-
-
+userInput.addEventListener("click",addButtonFunction);

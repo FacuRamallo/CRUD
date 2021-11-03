@@ -1,44 +1,44 @@
-import { listElement } from "./data.js";
-import { modifyInputPlaceHolder, renderList, resetInputValue, resetListRender } from "./display.js";
+import { buyList } from "./data.js";
+import { deleteRenderById, modifyInputPlaceHolder, renderListById, resetInputValue, resetListRender } from "./display.js";
+import { ListElement } from "./ListElement.js";
+///////BUTTONS FUNCTIONS//////////////////
+export function addButtonFunction() {
+    pushElementIntoList(buyList,createBuyListElements())
+    deleteRenderById("listdisplay");
+    renderListById(buyList,"listdisplay");
+    let deleteButtons = document.getElementsByClassName("deleteButton");
+    addEventToDeleteButtons(deleteButtons);
 
-//funtion to create a list from user entries
-export function createNewListElement() {
-    let elementToAdd = new listElement(randomNumber(),getUserValue());
+}
+
+export function deleteButtonFunction(){
+    let buttonId=this.id;
+    deleteListElementFromButton(buttonId,buyList);
+}
+
+
+//////LOGIC FUNCTION//////////////
+
+//function to create a new ListElement
+export function createBuyListElements() {
+    let elementToAdd= new ListElement(randomNumber(),getUserValue("input"));
     return elementToAdd;
-}     
-//Function to add a new element to our "to buy" list
-export function addElementToBuyList() {
-    
-    if (document.getElementById("input").placeholder == "Enter the first product") {
-        let storageBuyList = [createNewListElement()];
-        setLocalStorageList(storageBuyList);
-        modifyInputPlaceHolder();
-        resetInputValue();
-        renderList(getLocalStorageList("List"))
-        return 
-    } else {
-        resetListRender();
-        let actualList = getLocalStorageList("List")
-        let newElement = [createNewListElement()];
-        let storageBuyList = [];
-        storageBuyList = newElement.concat(actualList);
-        setLocalStorageList(storageBuyList);
-        resetInputValue();
-        renderList(getLocalStorageList("List"));
-        return 
-    }
-    
+}
+
+//function to push ListElement created into buyList
+export function pushElementIntoList(listoToPushIn,elementToPush) {
+    listoToPushIn.push(elementToPush);
 }
 
 //function that return a random number
 export function randomNumber() {
-    let randomNum = Math.floor(Math.random()*100);
+    let randomNum = Math.floor(Math.random()*1000);
     return randomNum;
 }
 
 //function to read user input
-export function getUserValue() {
-    let userValue = document.getElementById("input").value;
+export function getUserValue(fromId) {
+    let userValue = document.getElementById(`${fromId}`).value;
     return userValue;
 } 
 
@@ -58,6 +58,18 @@ export function resetApp() {
     localStorage.setItem("List","");
 }
 
-export function deleteListElement() {
-    
+//funtion to delete an element from the list
+export function deleteListElementFromButton(idFromButton,fromList) {
+    deleteRenderById("listdisplay")
+    let index = fromList.findIndex(item => item.id === idFromButton);
+    fromList.splice(index,1);
+    renderListById(buyList,"listdisplay");
+    let deleteButtons = document.getElementsByClassName("deleteButton");
+    addEventToDeleteButtons(deleteButtons)
+}
+
+export function addEventToDeleteButtons(deleteButtons) {
+    for (const i of deleteButtons) {
+        i.addEventListener("click",deleteButtonFunction)
+    }
 }

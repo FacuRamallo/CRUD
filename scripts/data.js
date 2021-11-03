@@ -1,12 +1,3 @@
-
-
-
-
-export class listElement {
-    constructor (id, description){
-        this.id = id;
-        this.description = description;
-    }
-}
+export let buyList = [];
 
 export let isTheListEmpty=0;
