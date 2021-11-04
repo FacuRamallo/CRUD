@@ -2,6 +2,7 @@
 export function li_Template(description,liId,sectionToRenderIn) {
     sectionToRenderIn.innerHTML += `<li id="${liId}">${description}
                                         <button class="deleteButton" id="${liId}" >Delete</button>
+                                        <button class="updateButton" id="${liId}" >Update</button>
                                     </li>`
 }
 
@@ -12,6 +13,13 @@ export function printInConsole(whatToPrint) {
 export function deleteRenderById(id) {
     document.getElementById(`${id}`).innerHTML=null;
 }
+export function renderInputById(idToPrintIn,newPlaceHolder,newInicialValue) {
+    let sectionToRenderIn = document.getElementById(`${idToPrintIn}`);
+    sectionToRenderIn.innerHTML =   `<input type="text" id="update2" class="update" placeholder=${newPlaceHolder} value=${newInicialValue}>
+                                    <button class="deleteButton" id="${idToPrintIn}" >Delete</button>
+                                    <button class="updateButton" id="${idToPrintIn}" >Update</button>`
+                                    
+}
 
 export function renderListById(listToPrint,idToPrintIn) {
     let sectionToRenderIn = document.getElementById(`${idToPrintIn}`);
@@ -21,14 +29,19 @@ export function renderListById(listToPrint,idToPrintIn) {
     return 
 }
 
-export function modifyInputPlaceHolder() {
-    let input = document.getElementById("input");
-    input.placeholder = "add new product";
+export function modifyInputPlaceHolderById(id,newText) {
+    let input = document.getElementById(`${id}`);
+    input.placeholder = `${newText}`;
     return
 }
 
-export function resetInputValue() {
-    let input = document.getElementById("input");
+export function modifyButtonTextById(id,newText) {
+    document.getElementById(`${id}`).textContent = `${newText}`;
+    return
+}
+
+export function resetInputValue(id) {
+    let input = document.getElementById(`${id}`);
     input.value = "";
     return
 }

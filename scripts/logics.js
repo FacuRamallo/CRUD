@@ -1,13 +1,14 @@
 import { buyList } from "./data.js";
-import { deleteRenderById, modifyInputPlaceHolder, renderListById, resetInputValue, resetListRender } from "./display.js";
+import { deleteRenderById, modifyInputPlaceHolderById, renderListById, resetInputValue, modifyButtonTextById, renderInputById  } from "./display.js";
 import { ListElement } from "./ListElement.js";
 ///////BUTTONS FUNCTIONS//////////////////
 export function addButtonFunction() {
-    pushElementIntoList(buyList,createBuyListElements())
+    pushElementIntoList(buyList,createBuyListElements());
     deleteRenderById("listdisplay");
     renderListById(buyList,"listdisplay");
-    let deleteButtons = document.getElementsByClassName("deleteButton");
-    addEventToDeleteButtons(deleteButtons);
+    addEventToListButtons("deleteButton",deleteButtonFunction);
+    addEventToListButtons("updateButton",updateButtonFunction1);
+    resetInputValue("input"); 
 
 }
 
@@ -16,6 +17,26 @@ export function deleteButtonFunction(){
     deleteListElementFromButton(buttonId,buyList);
 }
 
+export function updateButtonFunction1() {
+    let buttonId=this.id;
+    showInputToUpdateItemById(buttonId);
+    document.getElementById(buttonId).removeEventListener("click", updateButtonFunction1)
+    setTimeout(function(){addEventListener2ToUpdateButton(buttonId)},2000);
+}
+
+export function updateButtonFunction2() {
+    let buttonId=this.id;
+    let newItemDescription = document.getElementById("update2").value;
+    buyList.forEach(element => {
+        if (element.id == buttonId) {
+            element.description = newItemDescription
+        }
+    });
+    deleteRenderById("listdisplay");
+    renderListById(buyList,"listdisplay");
+    addEventToListButtons("deleteButton",deleteButtonFunction);
+    addEventToListButtons("updateButton",updateButtonFunction1);
+}
 
 //////LOGIC FUNCTION//////////////
 
@@ -64,12 +85,26 @@ export function deleteListElementFromButton(idFromButton,fromList) {
     let index = fromList.findIndex(item => item.id === idFromButton);
     fromList.splice(index,1);
     renderListById(buyList,"listdisplay");
-    let deleteButtons = document.getElementsByClassName("deleteButton");
-    addEventToDeleteButtons(deleteButtons)
+    addEventToListButtons("deleteButton",deleteButtonFunction);
+    addEventToListButtons("updateButton",updateButtonFunction1);
+}
+//function to add an event tu buttons added in each list element
+ export function addEventToListButtons(buttonsClass,functionToAply) {
+    let buttonType = document.getElementsByClassName(`${buttonsClass}`);
+    for (const i of buttonType) {
+        i.addEventListener("click",functionToAply)
+    }
+} 
+
+//function to update de description of a list item displayed 
+export function showInputToUpdateItemById(idFromButton) {
+    let sectionToUpdate = document.getElementById(idFromButton)
+    let inicialValue = sectionToUpdate.textContent;
+    console.log(inicialValue)
+    renderInputById(idFromButton,"Enter New Item Description",inicialValue)
+    
 }
 
-export function addEventToDeleteButtons(deleteButtons) {
-    for (const i of deleteButtons) {
-        i.addEventListener("click",deleteButtonFunction)
-    }
+export function addEventListener2ToUpdateButton(buttonId) {
+    document.getElementById(buttonId).addEventListener("click", updateButtonFunction2)
 }

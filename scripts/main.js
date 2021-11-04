@@ -3,6 +3,7 @@ import {printInConsole, renderListById, resetInputValue} from "./display.js"
 import {buyList,  } from "./data.js";
 import { ListElement } from "./ListElement.js";
 
+
 //to check if storage is supported
 if (typeof(Storage) !== "undefined") {
     console.log("LocalStorage disponible");
