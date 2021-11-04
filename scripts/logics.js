@@ -1,5 +1,5 @@
 import { buyList } from "./data.js";
-import { deleteRenderById, modifyInputPlaceHolderById, renderListById, resetInputValue, modifyButtonTextById, renderInputById  } from "./display.js";
+import { deleteRenderById, modifyInputPlaceHolderById, renderListById, resetInputValue, modifyButtonTextById, renderInputById, printInConsole  } from "./display.js";
 import { ListElement } from "./ListElement.js";
 ///////BUTTONS FUNCTIONS//////////////////
 export function addButtonFunction() {
@@ -9,7 +9,8 @@ export function addButtonFunction() {
     addEventToListButtons("deleteButton",deleteButtonFunction);
     addEventToListButtons("updateButton",updateButtonFunction1);
     resetInputValue("input"); 
-
+    setLocalStorageList("List",buyList);
+    
 }
 
 export function deleteButtonFunction(){
@@ -36,6 +37,7 @@ export function updateButtonFunction2() {
     renderListById(buyList,"listdisplay");
     addEventToListButtons("deleteButton",deleteButtonFunction);
     addEventToListButtons("updateButton",updateButtonFunction1);
+    setLocalStorageList("List",buyList);
 }
 
 //////LOGIC FUNCTION//////////////
@@ -64,8 +66,8 @@ export function getUserValue(fromId) {
 } 
 
 //funtion to save a list of objects in local storage
-export function setLocalStorageList(listToStorage) {
-    localStorage.setItem("List",JSON.stringify(listToStorage));
+export function setLocalStorageList(key,listToStorage) {
+    localStorage.setItem(key,JSON.stringify(listToStorage));
 }
 
 //funtion to get a list from local storage
@@ -76,9 +78,16 @@ export function getLocalStorageList(listkeyInLocalStorage) {
 
 //function to reset app
 export function resetApp() {
-    localStorage.setItem("List","");
+    erraseList(buyList);
+    erraseLocalStorage("List");
+    deleteRenderById("listdisplay");
 }
-
+export function erraseList(listToErase) {
+    listToErase.splice(0,listToErase.length);
+}
+export function erraseLocalStorage(keyToDelete) {
+    localStorage.setItem(`${keyToDelete}`,null)
+}
 //funtion to delete an element from the list
 export function deleteListElementFromButton(idFromButton,fromList) {
     deleteRenderById("listdisplay")
@@ -107,4 +116,14 @@ export function showInputToUpdateItemById(idFromButton) {
 
 export function addEventListener2ToUpdateButton(buttonId) {
     document.getElementById(buttonId).addEventListener("click", updateButtonFunction2)
+}
+
+
+export function setStartBuyList() {
+    let savedList = getLocalStorageList("List");
+    if (savedList != null) {
+        Array.prototype.push.apply(buyList, savedList)
+        return buyList
+    }
+    return buyList
 }

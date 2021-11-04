@@ -1,6 +1,6 @@
-import { addButtonFunction, createBuyListElements,pushElementIntoList,deleteButtonFunction} from "./logics.js";
+import { addButtonFunction, createBuyListElements,pushElementIntoList,deleteButtonFunction,setStartBuyList,getLocalStorageList, resetApp} from "./logics.js";
 import {printInConsole, renderListById, resetInputValue} from "./display.js"
-import {buyList,  } from "./data.js";
+import {buyList  } from "./data.js";
 import { ListElement } from "./ListElement.js";
 
 
@@ -13,5 +13,11 @@ if (typeof(Storage) !== "undefined") {
 
 
 //////////////////////MAIN/////////////////////////
+
+
+renderListById(setStartBuyList(),"listdisplay")
 let userInput = document.getElementById("addButton");
 userInput.addEventListener("click",addButtonFunction);
+
+let reset = document.getElementById("resetButton");
+reset.addEventListener("click", resetApp);
